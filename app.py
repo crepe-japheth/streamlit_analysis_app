@@ -1,13 +1,42 @@
 import plotly.express as px
 import pandas as pd
 import streamlit as st
+from streamlit_option_menu import option_menu
 from collections import Counter
+
+
+class ProblemStatement:
+
+    def __init__(self):
+        st.title('The Problem Statement.')
+        st.markdown('---')
+
+        st.subheader("To analyze the factors that affect hotel bookings and cancellations in order to optimize revenue and occupancy rates for the hotel.")
+
+        st.markdown('###### This problem statement aims to investigate the factors that contribute to successful hotel bookings and cancellations. By identifying these factors, the hotel can optimize its revenue and occupancy rates, which are crucial for its sustainability and growth.')
+
+        st.markdown('---')
+
+        st.subheader('The following questions guided me for the analysis: ')
+
+        st.text("""
+1. What are the most common types of bookings (e.g., number of adults, number of children,\n type of meal plan, room type)?\n
+2. How does the lead time (i.e., the time between booking and arrival) affect the booking status?\n
+3. Are there any patterns in the booking and cancellation behavior of repeated guests?\n
+4. How do market segments differ in terms of booking and cancellation rates?\n
+5. What is the relationship between the average price per room and the booking status?\n
+6. Are there any specific requests (e.g., car parking space, number of special requests)\n that are more likely to lead to successful bookings?\n
+7. Can we predict the likelihood of a booking being cancelled based on the available data?\n
+
+        """)
+        st.markdown('---')
+
+        st.text('By answering these questions, the hotel can gain insights into the factors\n that contribute to successful bookings and cancellations, and use this information to \nimprove its revenue and occupancy rates')
 
 
 class MyDashBoard:
 
     def __init__(self):
-        st.set_page_config(page_title='hotel reservation', page_icon=":hotel:", layout='wide')
         st.title(':hotel: HOTEL RESERVATION DASHBOARD')
         st.markdown('---')
         self.dataset = pd.read_csv('./hotel_reservation.csv')
@@ -102,6 +131,13 @@ class MyDashBoard:
 
 
 if __name__ == "__main__":
-    obj = MyDashBoard()
-    obj.main()
+    st.set_page_config(page_title='hotel reservation', page_icon=":hotel:", layout='wide')
+    with st.sidebar:
+        selected = option_menu("Main Menu", ["Home", 'Problem Statement'], 
+        icons=['house', 'gear'], menu_icon="cast", default_index=0)
+    if selected == 'Home':
+        obj = MyDashBoard()
+        obj.main()
+    else:
+        ProblemStatement()
 
